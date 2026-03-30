@@ -169,7 +169,7 @@ class SpandrelDetector:
         active_norms: list["Norm"],
     ) -> list:
         """Detecta litigio estratégico sistemático como norma informal emergente."""
-        from engine.actions import ActionType
+        from agents.base_agent import ActionType
 
         # Si más del 40% de los agentes con acciones legales disponibles
         # eligen LITIGATE de forma consistente, podría ser spandrel
