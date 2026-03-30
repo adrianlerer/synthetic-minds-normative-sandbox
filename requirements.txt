@@ -1,0 +1,26 @@
+# SNMS — Synthetic Minds Normative Sandbox
+# Dependencias core
+pyyaml>=6.0
+numpy>=1.26
+pandas>=2.1
+scipy>=1.11
+matplotlib>=3.8
+seaborn>=0.13
+
+# Integración con 816-agentes (lógica CRI/HBU heredada)
+# No es un paquete publicado: incluido por referencia directa en agents/
+
+# Integración con TribeV2 (opcional, requiere GPU)
+# pip install -e ".[tribev2]" para activar
+# torch>=2.0          # extra: tribev2
+# torchvision>=0.15   # extra: tribev2
+# huggingface-hub>=0.20  # extra: tribev2
+
+# Testing y desarrollo
+pytest>=7.4
+pytest-cov>=4.0
+black>=23.0
+ruff>=0.1
+
+# Reproducibilidad
+python-dotenv>=1.0

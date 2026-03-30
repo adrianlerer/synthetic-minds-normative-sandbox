@@ -1,0 +1,140 @@
+# Experimento: Reforma Laboral Flexibilizadora Argentina 2025
+# Basado en: Lerer (2026), Simulating Institutional Dynamics
+# Extiende: 816-agentes-institucionales-argentinos-EPT
+
+experiment_id: reforma_laboral_2025
+name: "Reforma Laboral Flexibilizadora con Mentes Tipo"
+description: >
+  Replica el experimento de 816-agentes pero con MindProfiles arquetípicos.
+  La hipótesis central: el bloqueo emergente (CLI≈0.89) se explica mejor
+  cuando los agentes tienen mentes tipo, porque la mente del JuezCSJN
+  (Aristotle+Aurelius) genera un FDI alto: la función actual del control
+  de constitucionalidad es bloquear reformas, no evaluar su contenido.
+
+# Marco teórico activado
+theoretical_framework:
+  exaptation: true          # Registrar deriva funcional
+  spandrel_detection: true  # Detectar efectos no planificados
+  multilevel_selection: true # L1/L2/L3 simultáneos
+  mind_profiles: true       # Usar MindProfiles (vs. sólo CRI/HBU)
+
+# Configuración de simulación
+simulation:
+  rounds: 100
+  seeds: [42, 137, 271, 314, 999]
+  norm_introduction_round: 5
+
+# Norma experimental
+norm:
+  norm_id: reforma_laboral_synthetic_2025
+  name: "Reforma laboral flexibilizadora sintética"
+  norm_type: statutory
+  complexity: 0.72          # Alta complejidad: múltiples dimensiones
+  origin_function:
+    label: "flexibilización_mercado_laboral"
+    description: "Reducir rigidez del mercado laboral mediante mayor autonomía contractual"
+    target_agents: [firma_regulada, ciudadano_informado]
+    expected_fitness_delta: 0.25
+    selection_level: L3
+  text_excerpt: >
+    "Las partes de la relación laboral podrán acordar libremente las condiciones
+    de trabajo, respetando los mínimos inderogables establecidos en la presente
+    ley y en los convenios colectivos de trabajo aplicables..."
+
+# Población de agentes con mentes tipo
+agents:
+  juez_csjn:
+    count: 5
+    cri_base: 0.82
+    institutional_capital: 0.90
+    mind_profile: juez_csjn
+    available_actions: [comply, resist, litigate, negotiate]
+
+  legislador_oficialista:
+    count: 130
+    cri_base: 0.61
+    institutional_capital: 0.65
+    mind_profile: legislador_oficialista
+    available_actions: [comply, lobby, coalesce, negotiate]
+
+  legislador_opositor:
+    count: 127
+    cri_base: 0.55
+    institutional_capital: 0.60
+    mind_profile: legislador_opositor
+    available_actions: [resist, litigate, lobby, negotiate, defect]
+
+  dirigente_gremial:
+    count: 4
+    cri_base: 0.88
+    institutional_capital: 0.78
+    mind_profile: dirigente_gremial
+    available_actions: [resist, litigate, lobby, coalesce, negotiate]
+    coalition: cgt_cta
+
+  firma_regulada:
+    count: 50
+    cri_base: 0.45
+    institutional_capital: 0.55
+    mind_profile: empresario_regulado
+    available_actions: [comply, lobby, negotiate, coalesce]
+
+  ciudadano_informado:
+    count: 500
+    cri_base: 0.30
+    institutional_capital: 0.20
+    mind_profile: ciudadano_informado
+    available_actions: [comply, resist, defect]
+
+# Coaliciones activas
+coalitions:
+  cgt_cta:
+    members: [dirigente_gremial]
+    coalition_signal: -0.85    # Señal fuerte contra la reforma
+  oficialismo:
+    members: [legislador_oficialista]
+    coalition_signal: 0.70
+  oposicion:
+    members: [legislador_opositor]
+    coalition_signal: -0.50
+
+# Hipótesis falsables
+hypotheses:
+  h1:
+    label: "CLI_emergente"
+    prediction: "CLI_final > 0.85"
+    rationale: >
+      Con mentes tipo, el CRI efectivo del JuezCSJN (0.82 × 1.3 modificador)
+      es aún más alto que en 816-agentes. El bloqueo debería ser más fuerte.
+
+  h2:
+    label: "FDI_alto"
+    prediction: "FDI_norma > 0.40 en ronda 50"
+    rationale: >
+      La función original (flexibilización L3) debería derivar hacia una
+      función actual de arena de litigio estratégico (L2-L1 parasitaria).
+
+  h3:
+    label: "spandrel_litigio_estrategico"
+    prediction: "Al menos 1 spandrel confirmado antes de ronda 60"
+    rationale: >
+      El litigio sistemático como mecanismo de negociación informal
+      es el spandrel más probable de esta clase de reformas laborales
+      (cf. evidencia histórica Argentina 1990-2024).
+
+  h4:
+    label: "MSR_parasitario"
+    prediction: "MSR < 0.80 en ronda 70"
+    rationale: >
+      Los DirigenteGremial (Musashi+Machiavelli) maximizarán fitness L1
+      a expensas de L3: la norma se volverá parasitaria.
+
+# Métricas de salida
+output_metrics:
+  - cli_by_round
+  - fdi_by_round
+  - spandrels_emerged
+  - msr_by_round
+  - mind_coherence_scores
+  - belief_distribution_final
+  - coalition_fitness_l2
